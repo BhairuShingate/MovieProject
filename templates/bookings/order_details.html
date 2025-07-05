@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Bookings</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .search-form {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-form input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+            outline: none;
+        }
+
+        .search-form button {
+            padding: 8px 16px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .card h4 {
+            margin-bottom: 10px;
+            color: #0056b3;
+        }
+
+        .card .detail {
+            margin: 5px 0;
+        }
+
+        .card .seats {
+            font-weight: bold;
+            color: #444;
+        }
+
+        .no-bookings {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Order Details</h2>
+
+        <form class="search-form" method="get">
+            <input type="text" name="movie" placeholder="Search by movie title..." value="{{ request.GET.movie }}">
+            <button type="submit">Search</button>
+        </form>
+
+        {% if bookings %}
+            {% for booking in bookings %}
+                <div class="card">
+                    <h4>{{ booking.showtime.movie.title }}</h4>
+                    <div class="detail"><strong>Theater:</strong> {{ booking.showtime.theater.name }}</div>
+                    {% comment %} <div class="detail"><strong>Showtime:</strong> {{ showtime.datetime }}</div>
+
+                    <div class="detail"><strong>Seats:</strong>
+                        <span class="seats">
+                            {% for bs in seats %}
+                                {{ bs.seat.seat_number }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                                No seats selected.
+                            {% endfor %}
+                        </span>
+                    </div> {% endcomment %}
+                    <div class="detail"><strong>Total:</strong> ₹{{ booking.total_amount }}</div>
+                    <div class="detail"><strong>Booked On:</strong> {{ booking.booking_time|date:"Y-m-d H:i" }}</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="no-bookings">No bookings found.</div>
+        {% endif %}
+    </div>
+</body>
+</html>

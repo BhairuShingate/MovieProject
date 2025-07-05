@@ -1,0 +1,87 @@
+/* Common styles for Reset Password, Identity Verification, and OTP – Indigo Theme */
+
+body {
+    background-color: #e6e9f0;
+    color: #333333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Shared Form Container */
+form {
+    max-width: 400px;
+    margin: 60px auto;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+h2 {
+    text-align: center;
+    color: #6c63ff;
+    margin-bottom: 25px;
+}
+
+form p {
+    margin-bottom: 15px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #f4f6fb;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    color: #333;
+    font-size: 1rem;
+}
+
+input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #6c63ff;
+    border: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 25px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+    background-color: #857dff;
+}
+
+/* OTP-specific overrides */
+form.otp-form {
+    text-align: center;
+}
+
+form.otp-form input[type="text"] {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+    text-align: center;
+    background-color: #f4f6fb;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    color: #333;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
+}
+
+form.otp-form input[type="text"]:focus {
+    background-color: #e3e5f0;
+}
+
+#timer {
+    font-weight: bold;
+    color: #6c63ff;
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 1.1rem;
+}

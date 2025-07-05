@@ -1,0 +1,119 @@
+/* Seat Booking Page CSS */
+
+body {
+    background-color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: grey;
+    margin: 0;
+    padding: 30px 20px;
+    text-align: center;
+}
+
+h2 {
+    color: #f84464;
+    margin-bottom: 10px;
+}
+
+p {
+    color: lightseagreen;
+    margin: 5px 0;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #444;
+    margin: 30px auto;
+    width: 80%;
+}
+
+/* Seat Categories */
+.category-heading {
+    margin-top: 40px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    color: #74b9ff;
+}
+
+/* Row and Seat Grid */
+.seat-row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.seat {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 6px;
+    border: 2px solid #2d3436;
+    background-color: #1e272e;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.seat:hover {
+    transform: scale(1.1);
+    background-color: #2c3e50;
+}
+
+.seat.selected {
+    background-color: #00cec9;
+    border-color: #00cec9;
+    color: #000;
+}
+
+.seat.booked {
+    background-color: blueviolet;
+    color: #222;
+    cursor: not-allowed;
+    border-color: blueviolet;
+}
+
+.seat.sold {
+    background-color: #636e72;
+    color: white;
+    cursor: not-allowed;
+    border-color: #555;
+}
+
+/* Booking Summary */
+#summary {
+    margin-top: 40px;
+    background-color: #1f1f1f;
+    padding: 25px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.6);
+}
+
+#summary p {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #ffffff;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px 28px;
+    background-color: #0984e3;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0077cc;
+}

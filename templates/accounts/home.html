@@ -1,0 +1,10 @@
+{% comment %} {% extends "base.html" %}
+{% block title %}<h2>Create Account</h2>{% endblock title %}
+{% block content %}
+<form action="" method="post">
+    {% csrf_token %}
+    <h2>welcome to movie ticket booking</h2>
+    <p>{{request.user}}</p>
+    <a href="{% url 'Logout' %}">Logout</a>
+</form> 
+{% endblock content %} {% endcomment %}

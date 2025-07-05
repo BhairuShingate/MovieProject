@@ -1,0 +1,81 @@
+/* home.css */
+
+h1 {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #f84464;
+    margin-top: 30px;
+}
+
+p {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #dddddd;
+    margin-bottom: 40px;
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    padding: 0 40px 40px;
+}
+
+.movie-card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.movie-card:hover {
+    transform: scale(1.03);
+    box-shadow: 0 6px 14px rgba(255, 132, 132, 0.4);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 320px;
+    object-fit: cover;
+    display: block;
+}
+
+.movie-details {
+    padding: 15px;
+    text-align: center;
+}
+
+.movie-title {
+    font-size: 1.4rem;
+    margin: 10px 0 5px;
+    color: #ffffff;
+}
+
+.movie-meta {
+    color: #bbbbbb;
+    font-size: 0.95rem;
+    margin-bottom: 5px;
+}
+
+.movie-rating {
+    font-size: 1rem;
+    color: #ffc107;
+    margin-bottom: 15px;
+}
+
+.book-btn {
+    display: inline-block;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f84464;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.book-btn:hover {
+    background-color: #ff6b81;
+}

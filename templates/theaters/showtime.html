@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ movie.title }} - Showtimes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'D:\Jango\Projects\static\theaters\showtime.css' %}">
+</head>
+<body>
+<div class="container py-5">
+
+    <!-- Movie Title -->
+    <div class="movie-header mb-4">
+        <h2>{{ movie.title }}</h2>
+    </div>
+
+    <!-- Date Bar -->
+    <div class="date-bar mb-4">
+        {% for day in date_range %}
+            {% if day in available_dates %}
+                <a href="{% url 'Theater_Showtime' movie.slug day %}" class="{% if day|stringformat:'Y-m-d' == date_str %}active{% endif %}">
+                    {{ day|date:"D" }}<br>{{ day|date:"d M" }}
+                </a>
+            {% else %}
+                <span class="disabled">
+                    {{ day|date:"D" }}<br>{{ day|date:"d M" }}
+                </span>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <!-- Showtimes Grouped by Theater -->
+    {% if showtimes %}
+        {% for show in showtimes %}
+            <div class="theater-card mb-5">
+                <h5>{{ show.theater.name }} ({{ show.theater.city }})</h5>
+                <div class="tags mb-2">
+                    <span>M-Ticket</span>
+                    <span>Food & Beverage</span>
+                    <span>Info</span>
+                </div>
+                <p class="text-muted">{{ show.theater.address }}</p>
+
+                <div class="row g-3">
+                    <!-- Regular -->
+                    <div class="col-md-4 seat-category">
+                        <h6>Regular</h6>
+                        {% if show.showtime > current_datetime %}
+                            <a href="{% url 'seats_view' show.id %}?category=regular" class="showtime-slot">
+                                {{ show.showtime|time:"h:i A" }} - ₹{{ show.regular_price }}
+                            </a>
+                        {% else %}
+                            <span class="showtime-slot disabled">
+                                {{ show.showtime|time:"h:i A" }} - ₹{{ show.regular_price }}
+                            </span>
+                        {% endif %}
+                    </div>
+                    
+
+                    <!-- Silver -->
+                    <div class="col-md-4 seat-category">
+                        <h6>Silver</h6>
+                        {% if show.showtime > current_datetime %}
+                            <a href="{% url 'seats_view' show.id %}?category=silver" class="showtime-slot">
+                                {{ show.showtime|time:"h:i A" }} - ₹{{ show.silver_price }}
+                            </a>
+                        {% else %}
+                            <span class="showtime-slot disabled">
+                                {{ show.showtime|time:"h:i A" }} - ₹{{ show.silver_price }}
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Gold (Recliner) -->
+                    <div class="col-md-4 seat-category">
+                        <h6>Gold</h6>
+                        {% if show.showtime > current_datetime %}
+                            <a href="{% url 'seats_view' show.id %}?category=gold" class="showtime-slot">
+                                {{ show.showtime|time:"h:i A" }} - ₹{{ show.gold_price }}
+                            </a>
+                        {% else %}
+                            <span class="showtime-slot disabled">
+                                {{ show.showtime|time:"h:i A" }} - ₹{{ show.gold_price }}
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="no-show text-center mt-5">No showtimes available for the selected date.</div>
+    {% endif %}
+</div>
+</body>
+</html>

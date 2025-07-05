@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ movie.title }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'movies/list_.css' %}">
+</head>
+<body>
+
+<div class="container">
+  <div class="poster" id="btn">
+    {% if movie.movie_image %}
+      <img src="{{ movie.movie_image.url }}" alt="{{ movie.title }}">
+    {% endif %}
+  </div>
+
+  <div class="details">
+    <div class="title">{{ movie.title }}</div>
+
+    <div class="interested-box">
+      <span style="font-size: 20px;">⭐</span>
+      {% if review_stats.total_reviews > 0 %}
+        <span>
+          <strong>{{ review_stats.total_reviews }}</strong> reviews,
+          Average Rating: <strong>{{ review_stats.avg_rating|floatformat:1 }}/5</strong>
+        </span>
+      {% else %}
+        <span>No ratings yet</span>
+      {% endif %}
+    </div>
+
+    <div class="release-date">
+      {% if movie.status == "Realeased" %}
+        Released on {{ movie.release_date }}
+      {% else %}
+        Releasing on {{ movie.release_date }}
+      {% endif %}
+    </div>
+
+    <div class="info">
+      <span>{{ movie.language }}</span>
+      <span>{{ movie.duration_minutes }} mins</span>
+      <span>{{ movie.genre }}</span>
+      <span>{{ movie.status }}</span>
+    </div>
+
+    {% if movie.status == "Realeased" %}
+      <div class="rate-now-section mt-3">
+        <a href="{% url 'add_review' movie.slug %}" class="rate-now-btn">
+          <i class="fa-solid fa-heart red-heart"></i> Rate Now
+        </a>
+      </div>
+
+      <a href="{% url 'Theater_Showtime' movie.slug today_date %}" class="book-btn">
+        <button class="book-btn">Book Tickets</button>
+      </a>
+    {% else %}
+      <p style="margin-top: 20px; color: #f0ad4e;">
+        <strong>This movie is not released yet.</strong>
+      </p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="section">
+  <h2>About the Movie</h2>
+  <p>{{ movie.synopsis }}</p>
+</div>
+
+<div class="section">
+  <h2>Cast</h2>
+  <div class="cast-grid">
+    {% for cast in movie.casts.all %}
+      <div class="cast-card">
+        {% if cast.image %}
+          <img src="{{ cast.image.url }}" alt="{{ cast.name }}">
+        {% endif %}
+        <p><strong>{{ cast.name }}</strong></p>
+        <p>as {{ cast.role }}</p>
+      </div>
+    {% empty %}
+      <p>No cast members listed.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="section">
+  <h2>Reviews</h2>
+  {% if reviews %}
+    <div class="review-row">
+      {% for review in reviews %}
+        <div class="review-card">
+          <div class="review-header">
+            <strong>{{ review.user.username }}</strong>
+            <span class="rating-stars">⭐ {{ review.rating }}/5</span>
+          </div>
+          <div class="review-body">
+            {{ review.review_text|default:"(No comment)" }}
+          </div>
+          <div class="review-footer">
+            <small>Posted on {{ review.created_at|date:"M d, Y" }}</small>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>No reviews yet. Be the first to rate!</p>
+  {% endif %}
+</div>
+
+<script>
+  document.getElementById('btn').addEventListener('click', function() {
+    const trailerUrl = "{{ movie.trailer_url|default:'' }}";
+    if (trailerUrl) {
+      window.open(trailerUrl, "_blank");
+    } else {
+      alert("Trailer not available");
+    }
+  });
+</script>
+
+</body>
+</html>

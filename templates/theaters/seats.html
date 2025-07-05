@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Booking</title>
+    <link rel="stylesheet" href="{% static 'D:\Jango\Projects\static\theaters\seats.css' %}">
+</head>
+<body>
+{% include 'partial/messages.html' %} 
+
+{% block content %}
+
+<h2>{{ showtime.movie }}</h2>
+<p>{{ showtime.theater.address }}</p>
+<p>{{ showtime.showtime|time:"H:i A" }}</p>
+
+<hr>
+
+<!-- Loop through seat categories -->
+{% for category in seat_categories %}
+    <h3 class="category-heading">Rs. {{ category.price }} - {{ category.type|upper }}</h3>
+    {% for row_label, seats in seat_rows.items %}
+        {% if row_label.1 == category.type %}
+            <div><strong>Row {{ row_label.0 }}</strong></div>
+            <div class="seat-row">
+                {% for seat in seats %}
+                    {% if seat != 0 %}
+                        <div class="seat {{ seat.status|default:'' }}" 
+                             data-id="{{ seat.id }}" 
+                             data-category="{{ category.type }}" 
+                             data-price="{{ category.price }}">
+                            {{ seat.seat_number }}
+                        </div>
+                    {% else %}
+                        <div class="seat booked">{{seat.seat_number}}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+<hr>
+
+<!-- Booking Summary -->
+<div id="summary">
+    <form method="POST" action="{% url "book" showtime.id %}">
+        {% csrf_token %}
+        <p><strong>Selected Seats:</strong> <span id="selected-seat-list">None</span></p>
+        <p><strong>Pay:</strong> ₹<span id="total-price">0</span></p>
+        <input type="hidden" name="selected_seats" id="selected-seats-input">
+        <input type="hidden" name="total_amount" id="total-amount-input">
+        <button type="submit">Book Now</button>
+    </form>
+</div>
+
+<script>
+    const seats = document.querySelectorAll('.seat');
+    const selectedSeatList = document.getElementById('selected-seat-list');
+    const totalPriceElement = document.getElementById('total-price');
+    const selectedSeatsInput = document.getElementById('selected-seats-input');
+    const totalAmountInput = document.getElementById('total-amount-input');
+
+    seats.forEach(seat => {
+        if (!seat.classList.contains('booked') && !seat.classList.contains('sold')) {
+            seat.addEventListener('click', () => {
+                seat.classList.toggle('selected');
+                updateSummary();
+            });
+        }
+    });
+
+    function updateSummary() {
+        const selected = document.querySelectorAll('.seat.selected');
+        const selectedData = [];
+        let total = 0;
+
+        selected.forEach(seat => {
+            const id = seat.getAttribute('data-id');
+            const price = parseInt(seat.getAttribute('data-price'));
+            const key = seat.textContent.trim();  // seat number
+
+            selectedData.push({ id: id, key: key });
+            total += price;
+        });
+
+        selectedSeatList.textContent = selectedData.length > 0 ? selectedData.map(s => s.key).join(', ') : 'None';
+        totalPriceElement.textContent = total;
+        selectedSeatsInput.value = JSON.stringify(selectedData);  
+        totalAmountInput.value = total;
+    }
+</script>
+
+
+{% endblock %}
+</body>
+</html>

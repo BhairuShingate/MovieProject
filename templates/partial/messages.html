@@ -1,0 +1,51 @@
+{% comment %} 
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} d-flex align-items-center alert-dismissible fade show custom-msg" role="alert">
+        {% if message.tags == 'success' %}
+          <i class="fas fa-check-circle me-2 text-success"></i>
+        {% elif message.tags == 'error' or message.tags == 'danger' %}
+          <i class="fas fa-times-circle me-2 text-danger"></i>
+        {% elif message.tags == 'warning' %}
+          <i class="fas fa-exclamation-triangle me-2 text-warning"></i>
+        {% elif message.tags == 'info' %}
+          <i class="fas fa-info-circle me-2 text-info"></i>
+        {% endif %}
+        <div>{{ message }}</div>
+        <button type="button" class="btn-close ms-auto" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %} {% endcomment %}
+{% comment %} Popup messages  {% endcomment %}
+  <html>
+    <body>
+      
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  {% if messages %}
+  <script>
+    {% for message in messages %}
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: '{% if message.tags == "success" %}success{% elif message.tags == "error" %}error{% elif message.tags == "warning" %}warning{% else %}info{% endif %}',
+        title: '{{ message }}',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer)
+          toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    });
+    {% endfor %}
+  </script>
+  {% endif %}
+  </body>
+</html>
+
+
+  {% block content %}
+
+  {% endblock content %}

@@ -1,0 +1,28 @@
+{% comment %} {% extends "base.html" %} {% endcomment %}
+{% load static %}
+{% load socialaccount %}
+{% comment %} {% block title %}<h2>Login</h2>{% endblock title %} {% endcomment %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'D:\Jango\Projects\static\css\accounts\login.css' %}">
+
+<div class="login-container">
+  <form method="post">
+    {% csrf_token %}
+    <h2>Login</h2>
+    {{ form.as_p }}
+    <input type="submit" value="Login">
+    <p>Don't have an account? <a href="{% url 'Register' %}">Register</a></p>
+    <p>Forgot Password Click Here? <a href="{% url 'IdentityUser' %}">Forgot Password?</a></p>
+    <p style="text-align: center; margin-top: 20px;">--------------------Or login with--------------------</p>
+
+    <div class="text-center">
+        {% providers_media_js %}
+        {% provider_login_url "google" as google_login_url %}
+        <a href="{{ google_login_url }}" class="btn btn-outline-primary">
+            <i class="fab fa-google"></i> Login with Google
+        </a>
+    </div>
+
+  </form>
+</div>
+{% endblock %}
