@@ -141,6 +141,3 @@ def view_bookings(request):
         bookings = bookings.filter(showtime__movie__title__icontains=movie_title)
 
     return render(request, 'bookings/order_details.html', {'bookings': bookings})
-
-def sample_veiw(request):
-    return render(request,'dashboard/sample.html')
