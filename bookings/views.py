@@ -142,5 +142,3 @@ def view_bookings(request):
 
     return render(request, 'bookings/order_details.html', {'bookings': bookings})
 
-def sample_veiw(request):
-    return render(request,'dashboard/ample.html')
